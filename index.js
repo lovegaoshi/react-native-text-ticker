@@ -262,6 +262,10 @@ export default class TextMarquee extends PureComponent {
         })
       } catch (error) {
         console.warn('react-native-text-ticker: could not calculate metrics', error);
+        resolve({
+          contentFits:  true,
+          shouldBounce: false
+        })
       }
     }))
     await this.calculateMetricsPromise.then((result) => {
