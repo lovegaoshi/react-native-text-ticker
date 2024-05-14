@@ -1,6 +1,11 @@
-declare module 'react-native-text-ticker' {
-  import React from 'react';
-  import { StyleProp, TextProps, TextStyle, EasingFunction } from 'react-native';
+declare module "react-native-text-ticker" {
+  import React from "react";
+  import {
+    StyleProp,
+    TextProps,
+    TextStyle,
+    EasingFunction,
+  } from "react-native";
 
   export interface TextTickerProps extends TextProps {
     duration?: number;
@@ -17,7 +22,7 @@ declare module 'react-native-text-ticker' {
     useNativeDriver?: boolean;
     repeatSpacer?: number;
     easing?: EasingFunction;
-    animationType?: 'auto' | 'scroll' | 'bounce';
+    animationType?: "auto" | "scroll" | "bounce";
     scrollSpeed?: number;
     bounceSpeed?: number;
     shouldAnimateTreshold?: number;
@@ -25,8 +30,9 @@ declare module 'react-native-text-ticker' {
     bouncePadding?: {
       left?: number;
       right?: number;
-    }
+    };
     disabled?: boolean;
+    onWidthResolveError?: () => void;
   }
 
   export interface TextTickerRef {
@@ -34,5 +40,5 @@ declare module 'react-native-text-ticker' {
     stopAnimation(): void;
   }
 
-  export default class TextTicker extends React.Component<TextTickerProps> { }
+  export default class TextTicker extends React.Component<TextTickerProps> {}
 }
