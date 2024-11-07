@@ -6,12 +6,8 @@ import {
   Text,
   View,
   ScrollView,
-  NativeModules,
-  findNodeHandle,
   I18nManager,
 } from "react-native";
-
-const { UIManager } = NativeModules;
 
 export const TextTickAnimationType = Object.freeze({
   auto: "auto",
@@ -260,16 +256,10 @@ export default class TextMarquee extends PureComponent {
         try {
           const measureWidth = (node) =>
             new Promise(async (resolve, reject) => {
-              // nodehandle is not always there, causes crash. modified to check..
-              const nodeHandle = findNodeHandle(node);
-              if (nodeHandle) {
-                UIManager.measure(nodeHandle, (x, y, w) => {
-                  // console.log('Width: ' + w)
-                  return resolve(w);
-                });
-              } else {
-                return reject("nodehandle_not_found");
-              }
+              node.measure((x, y, w) => {
+                // console.log('Width: ' + w)
+                return resolve(w);
+              });
             });
           const [containerWidth, textWidth] = await Promise.all([
             measureWidth(this.containerRef),
