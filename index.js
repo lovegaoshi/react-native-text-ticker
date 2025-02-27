@@ -266,6 +266,7 @@ export default class TextMarquee extends PureComponent {
             measureWidth(this.textRef),
           ]);
 
+          this.animatedValue.setValue(0);
           if (containerWidth === undefined || containerWidth === 0) {
             console.warn(
               "react-native-text-ticker: could not calculate container width. resolves to no animation."
