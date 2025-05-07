@@ -223,14 +223,14 @@ export default class TextMarquee extends PureComponent {
   start = async () => {
     this.setState({ animating: true });
     this.setTimeout(async () => {
-      await this.calculateMetrics();
-      if (!this.state.contentFits) {
+      const { contentFits, shouldBounce } = await this.calculateMetrics();
+      if (!contentFits) {
         const { onScrollStart } = this.props;
         if (onScrollStart && typeof onScrollStart === "function") {
           onScrollStart();
         }
         if (this.props.animationType === "auto") {
-          if (this.state.shouldBounce && this.props.bounce) {
+          if (shouldBounce && this.props.bounce) {
             this.animateBounce();
           } else {
             this.animateScroll();
@@ -301,13 +301,13 @@ export default class TextMarquee extends PureComponent {
         }
       })
     );
-    await this.calculateMetricsPromise.then((result) => {
-      this.setState({
-        contentFits: result.contentFits,
-        shouldBounce: result.shouldBounce,
-      });
-      return [];
-    });
+    const result = await this.calculateMetricsPromise;
+    const resState = {
+      contentFits: result.contentFits,
+      shouldBounce: result.shouldBounce,
+    };
+    this.setState(resState);
+    return resState;
   }
 
   invalidateMetrics = () => {
