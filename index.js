@@ -108,7 +108,7 @@ export default class TextMarquee extends PureComponent {
           if (reject) {
             reject(error);
           }
-        }
+        },
       );
     });
     wrappedPromise.cancel = cancel;
@@ -138,7 +138,7 @@ export default class TextMarquee extends PureComponent {
     } = this.props;
     this.setTimeout(() => {
       const scrollToValue =
-        isRTL ?? I18nManager.isRTL
+        (isRTL ?? I18nManager.isRTL)
           ? this.textWidth + repeatSpacer
           : -this.textWidth - repeatSpacer;
       if (!isNaN(scrollToValue)) {
@@ -196,7 +196,7 @@ export default class TextMarquee extends PureComponent {
           Animated.timing(this.animatedValue, {
             toValue: rtl
               ? -(bounceStartPadding ?? 10)
-              : bounceStartPadding ?? 10,
+              : (bounceStartPadding ?? 10),
             duration: duration || this.distance * bounceSpeed,
             easing: easing,
             isInteraction: isInteraction,
@@ -216,7 +216,7 @@ export default class TextMarquee extends PureComponent {
         ? bounceDelay > 0
           ? bounceDelay
           : 0
-        : marqueeDelay
+        : marqueeDelay,
     );
   };
 
@@ -251,6 +251,7 @@ export default class TextMarquee extends PureComponent {
 
   async calculateMetrics() {
     const { shouldAnimateTreshold } = this.props;
+    await new Promise((resolve) => setTimeout(resolve, 1));
     this.calculateMetricsPromise = this.makeCancelable(
       new Promise(async (resolve, reject) => {
         try {
@@ -269,7 +270,7 @@ export default class TextMarquee extends PureComponent {
           this.animatedValue.setValue(0);
           if (containerWidth === undefined || containerWidth === 0) {
             console.warn(
-              "react-native-text-ticker: could not calculate container width. resolves to no animation."
+              "react-native-text-ticker: could not calculate container width. resolves to no animation.",
             );
             this.props.onWidthResolveError?.();
             resolve({
@@ -292,14 +293,14 @@ export default class TextMarquee extends PureComponent {
         } catch (error) {
           console.warn(
             "react-native-text-ticker: could not calculate metrics",
-            error
+            error,
           );
           resolve({
             contentFits: true,
             shouldBounce: false,
           });
         }
-      })
+      }),
     );
     const result = await this.calculateMetricsPromise;
     const resState = {
@@ -340,7 +341,7 @@ export default class TextMarquee extends PureComponent {
         this.setState({ isScrolling: false });
         this.start();
       },
-      marqueeDelay >= 0 ? marqueeDelay : 3000
+      marqueeDelay >= 0 ? marqueeDelay : 3000,
     );
   };
 
